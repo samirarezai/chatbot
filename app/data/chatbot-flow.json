@@ -1,0 +1,110 @@
+{
+  "initial": {
+    "greeting": "Well hey there! It's great seeing you here in Portal . I'm Michelle, the UoPeople chatbot.",
+    "question": "How may I assist you today?",
+    "options": [
+      "Course Registration",
+      "Fees & Financial Aid",
+      "Assignments & Exams",
+      "Course Instructor",
+      "Urgent Assistance"
+    ]
+  },
+  "urgentAssistance": {
+    "authRequired": true,
+    "authQuestions": [
+      {
+        "id": "email",
+        "question": "1- What is the email address you have with UoPeople",
+        "type": "text",
+        "validation": "email"
+      },
+      {
+        "id": "dob",
+        "question": "2 - Please choose your date of birth from the calendar.",
+        "type": "date",
+        "calendar": true
+      }
+    ],
+    "topicQuestion": "What is the topic of your request?",
+    "topics": [
+      "Tech issues",
+      "Deadlines",
+      "Registration",
+      "Others"
+    ],
+    "registrationOptions": {
+      "question": "Please select one of the option",
+      "options": [
+        "New Registration",
+        "Other"
+      ]
+    },
+    "unavailable": {
+      "message": "I'm sorry, but there is nobody available at this time. Would you like to send them an email instead?",
+      "options": ["Yes", "No"]
+    },
+    "emailComposition": {
+      "greeting": "Hello {name}, I am happy to help you!",
+      "question": "In order to address all your questions and concerns, please tell me everything you would like to include in the email to your Program Advisor.",
+      "confirmation": "Can you confirm if I'm good to send your email?",
+      "confirmationOptions": ["Yes, send my email", "No"],
+      "sending": "Great, I will go ahead and send that email now.",
+      "sent": "Your Program Advisor will contact you within one business day.",
+      "followUp": "Is there anything else I can help you with today?"
+    }
+  },
+  "otherTopics": {
+    "courseRegistration": {
+      "message": "For course registration assistance, please contact your Program Advisor.",
+      "options": ["Contact Advisor", "Back to Menu"]
+    },
+    "feesFinancialAid": {
+      "message": "For questions about fees and financial aid, please visit the Financial Aid office or contact them directly.",
+      "options": ["Contact Financial Aid", "Back to Menu"]
+    },
+    "assignmentsExams": {
+      "message": "For assignments and exams, please contact your course instructor or check the course materials.",
+      "options": ["Contact Instructor", "Back to Menu"]
+    },
+    "courseInstructor": {
+      "message": "To contact your course instructor, please use the messaging system in your course portal.",
+      "options": ["Go to Portal", "Back to Menu"]
+    }
+  },
+  "survey": {
+    "enabled": true,
+    "intro": "Thanks a lot for chatting with Michelle. We're going to ask you a couple of questions about your experience. If you'd like to skip the whole survey type 'skip' at any point.",
+    "questions": [
+      {
+        "id": "satisfaction",
+        "question": "Overall, how satisfied or dissatisfied were you with the support you received from our chat service? (5 being the highest, and 1 being the lowest)",
+        "type": "rating",
+        "scale": 5
+      },
+      {
+        "id": "resolved",
+        "question": "Was the issue you contacted us about resolved during this engagement?",
+        "type": "boolean",
+        "options": ["Yes", "No"]
+      },
+      {
+        "id": "comments",
+        "question": "Any comments to help us understand how we can improve?",
+        "type": "text"
+      }
+    ],
+    "thankYou": "Thank you for your feedback!"
+  },
+  "conversationEnd": {
+    "message": "Click below to start the chat.",
+    "restartText": "Start New Chat"
+  },
+  "responses": {
+    "default": "I'm here to help! Please select one of the options above.",
+    "invalidInput": "I didn't understand that. Please select one of the available options.",
+    "goodbye": "Thank you for chatting with Michelle. Have a great day!",
+    "restart": "Starting a new conversation..."
+  }
+}
+
