@@ -56,18 +56,94 @@
   },
   "otherTopics": {
     "courseRegistration": {
+      "question": "What course registration problem are you experiencing?",
+      "problems": [
+        "Cannot register for a course",
+        "Course is full",
+        "Prerequisites not met",
+        "Registration deadline passed",
+        "Technical error during registration",
+        "Other registration issue"
+      ],
+      "problemDescriptions": {
+        "Cannot register for a course": "To resolve this issue, please check the following:\n\n1. Verify that you meet all course prerequisites\n2. Ensure you have completed any required prerequisite courses\n3. Check if there are any holds on your account (financial, academic, etc.)\n4. Confirm that you are within the registration period\n5. Try clearing your browser cache and cookies, then attempt registration again\n\nIf the problem persists, please contact your Program Advisor for further assistance.",
+        "Course is full": "If the course you want to register for is full, here are your options:\n\n1. Check if there's a waitlist option available - you can join the waitlist and will be notified if a spot opens up\n2. Look for alternative sections of the same course that may have available seats\n3. Consider registering for the course in the next term\n4. Contact your Program Advisor to discuss alternative course options or to request special permission if needed\n\nYour Program Advisor can help you find the best solution for your academic plan.",
+        "Prerequisites not met": "If you're seeing a prerequisites error, please:\n\n1. Review the course requirements and ensure you have completed all listed prerequisites\n2. Check your academic transcript to verify prerequisite course completion\n3. If you believe you have met the prerequisites but the system isn't recognizing them, contact the Registrar's Office\n4. Consider taking the prerequisite course first if you haven't completed it yet\n5. Speak with your Program Advisor about potential prerequisite waivers if you have equivalent experience\n\nYour Program Advisor can review your situation and help determine the best path forward.",
+        "Registration deadline passed": "If the registration deadline has passed:\n\n1. Contact your Program Advisor immediately to discuss your options\n2. Late registration may be possible with special permission from your Program Advisor\n3. You may need to wait until the next registration period\n4. In some cases, you may be able to register for the course in the next term\n5. Your Program Advisor can help you adjust your academic plan accordingly\n\nIt's important to act quickly, as late registration options may be limited.",
+        "Technical error during registration": "If you're experiencing technical errors during registration:\n\n1. Clear your browser cache and cookies, then try again\n2. Try using a different web browser (Chrome, Firefox, Safari, Edge)\n3. Disable browser extensions that might interfere with the registration system\n4. Ensure you have a stable internet connection\n5. Try registering from a different device or network\n6. If the error persists, take a screenshot of the error message and contact IT Support\n7. You can also contact your Program Advisor who can assist with registration on your behalf\n\nTechnical issues are usually resolved quickly, but if they persist, IT Support can help troubleshoot the problem.",
+        "Other registration issue": "For other registration issues:\n\n1. Document the specific problem you're encountering (take screenshots if possible)\n2. Check your student portal for any notifications or messages about your account status\n3. Verify that all your account information is up to date\n4. Contact your Program Advisor with details about the issue\n5. Your Program Advisor can help identify the problem and guide you to the appropriate solution\n\nPlease provide as much detail as possible when contacting support to help resolve your issue quickly."
+      },
+      "closeConversationQuestion": "Would you like to close this conversation?",
+      "closeOptions": ["Yes, close conversation", "No, I need more help"],
       "message": "For course registration assistance, please contact your Program Advisor.",
       "options": ["Contact Advisor", "Back to Menu"]
     },
     "feesFinancialAid": {
+      "question": "What fees or financial aid issue are you experiencing?",
+      "problems": [
+        "Payment issues",
+        "Financial aid application",
+        "Scholarship questions",
+        "Tuition fee inquiry",
+        "Payment deadline concerns",
+        "Other financial aid issue"
+      ],
+      "problemDescriptions": {
+        "Payment issues": "If you're experiencing payment issues:\n\n1. Check your payment method - ensure your credit card or bank account has sufficient funds\n2. Verify that your payment information is up to date in the student portal\n3. Try using a different payment method if one isn't working\n4. Clear your browser cache and cookies, then attempt the payment again\n5. Check if there are any holds on your account that might prevent payment\n6. Contact the Bursar's Office for assistance with payment processing issues\n\nIf the problem persists, the Financial Aid office can help you explore alternative payment options.",
+        "Financial aid application": "For financial aid application assistance:\n\n1. Ensure all required documents are submitted and complete\n2. Check your application status in the student portal\n3. Verify that you meet all eligibility requirements\n4. Review the application deadline and ensure you submitted on time\n5. Contact the Financial Aid office if you need help completing your application\n6. Keep track of any additional documentation requests from the Financial Aid office\n\nThe Financial Aid office can provide guidance on completing your application and answer any questions about the process.",
+        "Scholarship questions": "For scholarship-related questions:\n\n1. Review the scholarship requirements and eligibility criteria\n2. Check the scholarship application deadline and submission status\n3. Verify that all required documents have been submitted\n4. Review your academic standing and GPA requirements for the scholarship\n5. Contact the Financial Aid office for information about available scholarships\n6. Check the student portal for scholarship award notifications\n\nThe Financial Aid office can help you understand scholarship opportunities and requirements.",
+        "Tuition fee inquiry": "For tuition fee inquiries:\n\n1. Review your student account statement in the portal\n2. Check the breakdown of fees and charges\n3. Verify payment due dates and deadlines\n4. Review any fee waivers or adjustments that may apply\n5. Contact the Bursar's Office for detailed fee information\n6. Check if you qualify for any fee reductions or exemptions\n\nFor specific questions about your tuition fees, the Bursar's Office can provide a detailed breakdown and payment options.",
+        "Payment deadline concerns": "If you have concerns about payment deadlines:\n\n1. Check your student portal for the exact payment deadline\n2. Contact the Bursar's Office immediately if you're unable to meet the deadline\n3. Inquire about payment plan options that may be available\n4. Discuss your situation with the Financial Aid office for potential assistance\n5. Review any late payment penalties or consequences\n6. Explore emergency financial aid options if applicable\n\nIt's important to communicate with the Bursar's Office before the deadline to discuss your options.",
+        "Other financial aid issue": "For other financial aid issues:\n\n1. Document the specific issue you're experiencing\n2. Check your student portal for any notifications or messages\n3. Review your financial aid status and account information\n4. Contact the Financial Aid office with details about your issue\n5. Gather any relevant documentation related to your concern\n6. The Financial Aid office can help identify the problem and guide you to the appropriate solution\n\nPlease provide as much detail as possible when contacting support to help resolve your issue quickly."
+      },
+      "closeConversationQuestion": "Would you like to close this conversation?",
+      "closeOptions": ["Yes, close conversation", "No, I need more help"],
       "message": "For questions about fees and financial aid, please visit the Financial Aid office or contact them directly.",
       "options": ["Contact Financial Aid", "Back to Menu"]
     },
     "assignmentsExams": {
+      "question": "What assignment or exam issue are you experiencing?",
+      "problems": [
+        "Assignment submission problem",
+        "Exam access issues",
+        "Grading concerns",
+        "Deadline extension request",
+        "Technical issues with assignments",
+        "Other assignment/exam issue"
+      ],
+      "problemDescriptions": {
+        "Assignment submission problem": "If you're having trouble submitting an assignment:\n\n1. Check the file format and size requirements - ensure your file meets the specifications\n2. Verify that you're submitting to the correct assignment dropbox\n3. Clear your browser cache and cookies, then try submitting again\n4. Try using a different web browser (Chrome, Firefox, Safari, Edge)\n5. Ensure you have a stable internet connection\n6. Check if the submission deadline has passed - contact your instructor if it has\n7. Try submitting from a different device or network\n\nIf the problem persists, contact your course instructor immediately and take a screenshot of any error messages.",
+        "Exam access issues": "If you're experiencing exam access issues:\n\n1. Verify that you're logging in with the correct credentials\n2. Check the exam schedule and ensure you're accessing it during the designated time\n3. Clear your browser cache and cookies, then try again\n4. Disable browser extensions that might interfere with the exam system\n5. Ensure you have a stable internet connection\n6. Try using a different web browser\n7. Contact your course instructor immediately if you cannot access the exam\n\nIt's important to contact your instructor as soon as possible if you're unable to access an exam.",
+        "Grading concerns": "If you have concerns about grading:\n\n1. Review the assignment rubric and grading criteria\n2. Check your instructor's feedback and comments\n3. Compare your submission with the assignment requirements\n4. Contact your course instructor to discuss your grade\n5. Be prepared to provide specific questions about the grading\n6. Review the course syllabus for the grading policy and appeal process\n\nYour course instructor can help clarify grading decisions and address any concerns you may have.",
+        "Deadline extension request": "If you need to request a deadline extension:\n\n1. Contact your course instructor as soon as possible, preferably before the deadline\n2. Explain your situation clearly and provide any relevant documentation\n3. Review the course syllabus for the instructor's policy on extensions\n4. Be respectful and professional in your request\n5. Propose a reasonable new deadline if possible\n6. Understand that extensions are at the instructor's discretion\n\nIt's best to communicate with your instructor early rather than waiting until after the deadline.",
+        "Technical issues with assignments": "If you're experiencing technical issues with assignments:\n\n1. Take screenshots of any error messages you encounter\n2. Clear your browser cache and cookies\n3. Try using a different web browser\n4. Disable browser extensions that might interfere\n5. Ensure you have a stable internet connection\n6. Try accessing from a different device or network\n7. Check if the course platform is experiencing any known issues\n8. Contact your course instructor and IT Support with details about the issue\n\nDocument the problem thoroughly and contact support as soon as possible to avoid missing deadlines.",
+        "Other assignment/exam issue": "For other assignment or exam issues:\n\n1. Document the specific problem you're encountering (take screenshots if possible)\n2. Check the course materials and announcements for any relevant information\n3. Review the course syllabus for policies and procedures\n4. Contact your course instructor with details about the issue\n5. Be specific about what you've tried and what error messages you've seen\n6. Your instructor can help identify the problem and guide you to the appropriate solution\n\nPlease provide as much detail as possible when contacting your instructor to help resolve your issue quickly."
+      },
+      "closeConversationQuestion": "Would you like to close this conversation?",
+      "closeOptions": ["Yes, close conversation", "No, I need more help"],
       "message": "For assignments and exams, please contact your course instructor or check the course materials.",
       "options": ["Contact Instructor", "Back to Menu"]
     },
     "courseInstructor": {
+      "question": "What issue do you have with your course instructor?",
+      "problems": [
+        "Cannot contact instructor",
+        "Instructor not responding",
+        "Need clarification on course material",
+        "Schedule a meeting",
+        "Communication preferences",
+        "Other instructor issue"
+      ],
+      "problemDescriptions": {
+        "Cannot contact instructor": "If you're unable to contact your instructor:\n\n1. Check the course portal for the instructor's contact information\n2. Verify that you're using the correct email address from the course syllabus\n3. Try using the messaging system within the course portal\n4. Check if there are specific office hours or communication guidelines\n5. Review the course announcements for any updates about instructor availability\n6. Contact the department office if you need assistance reaching the instructor\n\nIf you continue to have trouble, the department can help facilitate communication.",
+        "Instructor not responding": "If your instructor is not responding:\n\n1. Allow 24-48 hours for a response, as instructors may have specific response time policies\n2. Check your email spam/junk folder to ensure the response wasn't filtered\n3. Verify that you're sending messages to the correct email address\n4. Review the course syllabus for the instructor's communication policy\n5. Try using the course portal messaging system if available\n6. If it's urgent, contact the department office for assistance\n\nIf you haven't received a response after a reasonable time, follow up politely or contact the department.",
+        "Need clarification on course material": "If you need clarification on course material:\n\n1. Review the course materials, lectures, and announcements first\n2. Check if your question has been addressed in the course discussion forum\n3. Prepare specific questions about the material you need clarified\n4. Contact your instructor through the course portal messaging system\n5. Be specific about which course material or topic you need help with\n6. Consider attending virtual office hours if available\n\nYour instructor can provide clarification and help you better understand the course material.",
+        "Schedule a meeting": "If you need to schedule a meeting with your instructor:\n\n1. Check the course syllabus for the instructor's office hours\n2. Review any scheduling preferences or procedures mentioned in the course\n3. Contact your instructor via email or the course portal messaging system\n4. Propose specific times that work for you\n5. Be flexible and respectful of the instructor's schedule\n6. Clearly state the purpose of the meeting in your request\n\nYour instructor can help arrange a meeting time that works for both of you.",
+        "Communication preferences": "For questions about communication preferences:\n\n1. Review the course syllabus for the instructor's preferred communication methods\n2. Check if there are specific guidelines about when and how to contact the instructor\n3. Respect the instructor's office hours and response time policies\n4. Use the course portal messaging system if that's the preferred method\n5. Be professional and concise in your communications\n6. Follow any specific formatting or subject line requirements\n\nUnderstanding and following your instructor's communication preferences helps ensure effective communication.",
+        "Other instructor issue": "For other instructor-related issues:\n\n1. Document the specific issue you're experiencing\n2. Review the course syllabus and policies for relevant information\n3. Check course announcements for any updates or changes\n4. Contact your instructor with details about the issue\n5. If the issue is serious or cannot be resolved, contact the department office\n6. Be professional and respectful in your communication\n\nYour instructor or the department can help address your concerns and find an appropriate solution."
+      },
+      "closeConversationQuestion": "Would you like to close this conversation?",
+      "closeOptions": ["Yes, close conversation", "No, I need more help"],
       "message": "To contact your course instructor, please use the messaging system in your course portal.",
       "options": ["Go to Portal", "Back to Menu"]
     }
@@ -105,6 +181,32 @@
     "invalidInput": "I didn't understand that. Please select one of the available options.",
     "goodbye": "Thank you for chatting with Michelle. Have a great day!",
     "restart": "Starting a new conversation..."
+  },
+  "contacts": {
+    "Contact Advisor": {
+      "name": "Dr. Sarah Johnson",
+      "title": "Program Advisor",
+      "email": "sarah.johnson@uopeople.edu",
+      "phone": "+1 (555) 123-4567"
+    },
+    "Contact Financial Aid": {
+      "name": "Mr. Michael Chen",
+      "title": "Financial Aid Officer",
+      "email": "financialaid@uopeople.edu",
+      "phone": "+1 (555) 234-5678"
+    },
+    "Contact Instructor": {
+      "name": "Your Course Instructor",
+      "title": "Course Instructor",
+      "email": "instructor@uopeople.edu",
+      "phone": "+1 (555) 345-6789"
+    },
+    "Go to Portal": {
+      "name": "Portal Support",
+      "title": "Student Portal Administrator",
+      "email": "portal@uopeople.edu",
+      "phone": "+1 (555) 456-7890"
+    }
   }
 }
 

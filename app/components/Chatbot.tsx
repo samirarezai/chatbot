@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import chatbotFlowData from '../data/chatbot-flow.json';
+import chatbotFlowData from '../data/chatbot-flow-fa.json';
 
 const chatbotFlow = chatbotFlowData as typeof chatbotFlowData;
 
@@ -26,6 +26,14 @@ type ConversationState =
   | 'urgent_email_confirmation'
   | 'urgent_email_sent'
   | 'urgent_followup'
+  | 'course_registration_problems'
+  | 'course_registration_close'
+  | 'fees_financial_aid_problems'
+  | 'fees_financial_aid_close'
+  | 'assignments_exams_problems'
+  | 'assignments_exams_close'
+  | 'course_instructor_problems'
+  | 'course_instructor_close'
   | 'other_topic'
   | 'survey_intro'
   | 'survey_satisfaction'
@@ -50,6 +58,7 @@ export default function Chatbot() {
   }>({});
   const [inputValue, setInputValue] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [hasSentFirstMessage, setHasSentFirstMessage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messageIdCounter = useRef(0);
@@ -59,20 +68,23 @@ export default function Chatbot() {
   };
 
   const initializeChat = () => {
+    messageIdCounter.current = 0;
+    messageIdCounter.current += 1;
     const greeting: Message = {
-      id: '1',
+      id: messageIdCounter.current.toString(),
       text: chatbotFlow.initial.greeting,
       sender: 'bot',
       timestamp: new Date(),
     };
+    messageIdCounter.current += 1;
     const question: Message = {
-      id: '2',
+      id: messageIdCounter.current.toString(),
       text: chatbotFlow.initial.question,
       sender: 'bot',
       timestamp: new Date(),
-      options: chatbotFlow.initial.options,
     };
     setMessages([greeting, question]);
+    setHasSentFirstMessage(false);
   };
 
   const addMessage = (text: string, sender: 'bot' | 'user', options?: string[], type?: 'text' | 'date' | 'rating' | 'boolean', showCalendar?: boolean) => {
@@ -149,6 +161,30 @@ export default function Chatbot() {
       case 'urgent_followup':
         handleFollowup(input);
         break;
+      case 'course_registration_problems':
+        handleCourseRegistrationProblem(input);
+        break;
+      case 'course_registration_close':
+        handleCourseRegistrationClose(input);
+        break;
+      case 'fees_financial_aid_problems':
+        handleFeesFinancialAidProblem(input);
+        break;
+      case 'fees_financial_aid_close':
+        handleFeesFinancialAidClose(input);
+        break;
+      case 'assignments_exams_problems':
+        handleAssignmentsExamsProblem(input);
+        break;
+      case 'assignments_exams_close':
+        handleAssignmentsExamsClose(input);
+        break;
+      case 'course_instructor_problems':
+        handleCourseInstructorProblem(input);
+        break;
+      case 'course_instructor_close':
+        handleCourseInstructorClose(input);
+        break;
       case 'other_topic':
         handleOtherTopicResponse(input);
         break;
@@ -167,26 +203,106 @@ export default function Chatbot() {
   };
 
   const handleInitialOption = (option: string) => {
-    if (option === 'Urgent Assistance') {
+    // Show options after first message if not matched
+    if (!hasSentFirstMessage) {
+      setHasSentFirstMessage(true);
+      // Check if input matches any option
+      const normalizedOption = option.toLowerCase().trim();
+      const matchesOption = chatbotFlow.initial.options.some(
+        opt => opt.toLowerCase() === normalizedOption || normalizedOption.includes(opt.toLowerCase())
+      );
+      
+      if (!matchesOption) {
+        // Show options if input doesn't match
+        addMessage(chatbotFlow.initial.question, 'bot', chatbotFlow.initial.options);
+        return;
+      }
+    }
+
+    // Find which option index was selected
+    const optionIndex = chatbotFlow.initial.options.findIndex(
+      opt => opt === option || option.includes(opt) || opt.includes(option)
+    );
+
+    // Check for urgent assistance (index 4 or contains urgent/کمک فوری)
+    if (optionIndex === 4 || option === 'Urgent Assistance' || option.toLowerCase().includes('urgent') || option.includes('کمک فوری')) {
       setConversationState('urgent_auth_email');
       addMessage(chatbotFlow.urgentAssistance.authQuestions[0].question, 'bot');
     } else {
-      const topicKey = option.toLowerCase().replace(/\s+/g, '');
       let topicData;
       
-      if (topicKey.includes('registration')) {
+      // Determine topic based on option index or content
+      if (optionIndex === 0 || option.includes('ثبت‌نام') || option.toLowerCase().includes('registration')) {
         topicData = chatbotFlow.otherTopics.courseRegistration;
-      } else if (topicKey.includes('fees') || topicKey.includes('financial')) {
+      } else if (optionIndex === 1 || option.includes('هزینه') || option.includes('کمک مالی') || option.toLowerCase().includes('fees') || option.toLowerCase().includes('financial')) {
         topicData = chatbotFlow.otherTopics.feesFinancialAid;
-      } else if (topicKey.includes('assignments') || topicKey.includes('exams')) {
+      } else if (optionIndex === 2 || option.includes('تکالیف') || option.includes('امتحانات') || option.toLowerCase().includes('assignments') || option.toLowerCase().includes('exams')) {
         topicData = chatbotFlow.otherTopics.assignmentsExams;
-      } else if (topicKey.includes('instructor')) {
+      } else if (optionIndex === 3 || option.includes('استاد') || option.toLowerCase().includes('instructor')) {
         topicData = chatbotFlow.otherTopics.courseInstructor;
       }
 
       if (topicData) {
-        addMessage(topicData.message, 'bot', topicData.options);
-        setConversationState('other_topic');
+        // Special handling for topics with problems lists
+        if (optionIndex === 0 || option.includes('ثبت‌نام') || option.toLowerCase().includes('registration')) {
+          setConversationState('course_registration_problems');
+          const registrationData = chatbotFlow.otherTopics.courseRegistration;
+          if (registrationData.problems && registrationData.problems.length > 0) {
+            addMessage(
+              registrationData.question || 'What course registration problem are you experiencing?',
+              'bot',
+              registrationData.problems
+            );
+          } else {
+            addMessage(topicData.message, 'bot', topicData.options);
+            setConversationState('other_topic');
+          }
+        } else if (optionIndex === 1 || option.includes('هزینه') || option.includes('کمک مالی') || option.toLowerCase().includes('fees') || option.toLowerCase().includes('financial')) {
+          setConversationState('fees_financial_aid_problems');
+          const feesData = chatbotFlow.otherTopics.feesFinancialAid;
+          if (feesData.problems && feesData.problems.length > 0) {
+            addMessage(
+              feesData.question || 'What fees or financial aid issue are you experiencing?',
+              'bot',
+              feesData.problems
+            );
+          } else {
+            addMessage(topicData.message, 'bot', topicData.options);
+            setConversationState('other_topic');
+          }
+        } else if (optionIndex === 2 || option.includes('تکالیف') || option.includes('امتحانات') || option.toLowerCase().includes('assignments') || option.toLowerCase().includes('exams')) {
+          setConversationState('assignments_exams_problems');
+          const assignmentsData = chatbotFlow.otherTopics.assignmentsExams;
+          if (assignmentsData.problems && assignmentsData.problems.length > 0) {
+            addMessage(
+              assignmentsData.question || 'What assignment or exam issue are you experiencing?',
+              'bot',
+              assignmentsData.problems
+            );
+          } else {
+            addMessage(topicData.message, 'bot', topicData.options);
+            setConversationState('other_topic');
+          }
+        } else if (optionIndex === 3 || option.includes('استاد') || option.toLowerCase().includes('instructor')) {
+          setConversationState('course_instructor_problems');
+          const instructorData = chatbotFlow.otherTopics.courseInstructor;
+          if (instructorData.problems && instructorData.problems.length > 0) {
+            addMessage(
+              instructorData.question || 'What issue do you have with your course instructor?',
+              'bot',
+              instructorData.problems
+            );
+          } else {
+            addMessage(topicData.message, 'bot', topicData.options);
+            setConversationState('other_topic');
+          }
+        } else {
+          addMessage(topicData.message, 'bot', topicData.options);
+          setConversationState('other_topic');
+        }
+      } else {
+        // If no match, show options with invalid input message
+        addMessage(chatbotFlow.responses.invalidInput, 'bot', chatbotFlow.initial.options);
       }
     }
   };
@@ -279,16 +395,266 @@ export default function Chatbot() {
     if (response === 'No') {
       startSurvey();
     } else {
-      initializeChat();
+      messageIdCounter.current = 0;
+      messageIdCounter.current += 1;
+      const greeting: Message = {
+        id: messageIdCounter.current.toString(),
+        text: chatbotFlow.initial.greeting,
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+      messageIdCounter.current += 1;
+      const question: Message = {
+        id: messageIdCounter.current.toString(),
+        text: chatbotFlow.initial.question,
+        sender: 'bot',
+        timestamp: new Date(),
+        options: chatbotFlow.initial.options, // Show options when going back to menu
+      };
+      setMessages([greeting, question]);
       setConversationState('initial');
       setUserData({});
+      setShowDatePicker(false);
+      setHasSentFirstMessage(true); // Set to true so options are visible
+    }
+  };
+
+  const handleCourseRegistrationProblem = (problem: string) => {
+    // Show the description for the selected problem
+    const registrationData = chatbotFlow.otherTopics.courseRegistration;
+    const problemDescriptions = registrationData.problemDescriptions as Record<string, string>;
+    
+    // Find the English key by matching the problem text with the problems array
+    const problemIndex = registrationData.problems?.findIndex(p => p === problem) ?? -1;
+    const englishKeys = [
+      'Cannot register for a course',
+      'Course is full',
+      'Prerequisites not met',
+      'Registration deadline passed',
+      'Technical error during registration',
+      'Other registration issue'
+    ];
+    const englishKey = problemIndex >= 0 ? englishKeys[problemIndex] : problem;
+    
+    const description = problemDescriptions[englishKey] || problemDescriptions[problem] || registrationData.message;
+    
+    // Show the description
+    addMessage(description, 'bot');
+    
+    // Then ask if they want to close the conversation
+    setTimeout(() => {
+      setConversationState('course_registration_close');
+      addMessage(
+        registrationData.closeConversationQuestion || 'Would you like to close this conversation?',
+        'bot',
+        registrationData.closeOptions || ['Yes, close conversation', 'No, I need more help']
+      );
+    }, 500);
+  };
+
+  const goBackToMenu = () => {
+    messageIdCounter.current = 0;
+    messageIdCounter.current += 1;
+    const greeting: Message = {
+      id: messageIdCounter.current.toString(),
+      text: chatbotFlow.initial.greeting,
+      sender: 'bot',
+      timestamp: new Date(),
+    };
+    messageIdCounter.current += 1;
+    const question: Message = {
+      id: messageIdCounter.current.toString(),
+      text: chatbotFlow.initial.question,
+      sender: 'bot',
+      timestamp: new Date(),
+      options: chatbotFlow.initial.options, // Show options when going back to menu
+    };
+    setMessages([greeting, question]);
+    setConversationState('initial');
+    setUserData({});
+    setShowDatePicker(false);
+    setHasSentFirstMessage(true); // Set to true so options are visible
+  };
+
+  const displayContactInfo = (contactKey: string) => {
+    const contacts = chatbotFlow.contacts as Record<string, { name: string; title: string; email: string; phone: string }>;
+    const contact = contacts[contactKey];
+    
+    if (contact) {
+      const contactInfo = `Contact Information:\n\n${contact.name}\n${contact.title}\n\nEmail: ${contact.email}\nPhone: ${contact.phone}`;
+      addMessage(contactInfo, 'bot');
+      setTimeout(() => {
+        addMessage(chatbotFlow.responses.goodbye, 'bot');
+        startSurvey();
+      }, 1000);
+    } else {
+      addMessage(chatbotFlow.responses.goodbye, 'bot');
+      startSurvey();
+    }
+  };
+
+  const handleCourseRegistrationClose = (response: string) => {
+    if (response === 'Yes, close conversation' || response.toLowerCase().includes('yes') || response.includes('بله، گفتگو را ببند')) {
+      addMessage(chatbotFlow.responses.goodbye, 'bot');
+      startSurvey();
+    } else if (response === 'Back to Menu' || response === 'بازگشت به منو') {
+      goBackToMenu();
+    } else if (response === 'Contact Advisor' || response === 'تماس با مشاور') {
+      displayContactInfo('Contact Advisor');
+    } else {
+      // If they need more help, show the original options
+      const registrationData = chatbotFlow.otherTopics.courseRegistration;
+      addMessage(registrationData.message, 'bot', registrationData.options);
+      setConversationState('other_topic');
+    }
+  };
+
+  const handleFeesFinancialAidProblem = (problem: string) => {
+    const feesData = chatbotFlow.otherTopics.feesFinancialAid;
+    const problemDescriptions = feesData.problemDescriptions as Record<string, string>;
+    
+    // Find the English key by matching the problem text with the problems array
+    const problemIndex = feesData.problems?.findIndex(p => p === problem) ?? -1;
+    const englishKeys = [
+      'Payment issues',
+      'Financial aid application',
+      'Scholarship questions',
+      'Tuition fee inquiry',
+      'Payment deadline concerns',
+      'Other financial aid issue'
+    ];
+    const englishKey = problemIndex >= 0 ? englishKeys[problemIndex] : problem;
+    
+    const description = problemDescriptions[englishKey] || problemDescriptions[problem] || feesData.message;
+    
+    addMessage(description, 'bot');
+    
+    setTimeout(() => {
+      setConversationState('fees_financial_aid_close');
+      addMessage(
+        feesData.closeConversationQuestion || 'Would you like to close this conversation?',
+        'bot',
+        feesData.closeOptions || ['Yes, close conversation', 'No, I need more help']
+      );
+    }, 500);
+  };
+
+  const handleFeesFinancialAidClose = (response: string) => {
+    if (response === 'Yes, close conversation' || response.toLowerCase().includes('yes') || response.includes('بله، گفتگو را ببند')) {
+      addMessage(chatbotFlow.responses.goodbye, 'bot');
+      startSurvey();
+    } else if (response === 'Back to Menu' || response === 'بازگشت به منو') {
+      goBackToMenu();
+    } else if (response === 'Contact Financial Aid' || response === 'تماس با کمک مالی') {
+      displayContactInfo('Contact Financial Aid');
+    } else {
+      const feesData = chatbotFlow.otherTopics.feesFinancialAid;
+      addMessage(feesData.message, 'bot', feesData.options);
+      setConversationState('other_topic');
+    }
+  };
+
+  const handleAssignmentsExamsProblem = (problem: string) => {
+    const assignmentsData = chatbotFlow.otherTopics.assignmentsExams;
+    const problemDescriptions = assignmentsData.problemDescriptions as Record<string, string>;
+    
+    // Find the English key by matching the problem text with the problems array
+    const problemIndex = assignmentsData.problems?.findIndex(p => p === problem) ?? -1;
+    const englishKeys = [
+      'Assignment submission problem',
+      'Exam access issues',
+      'Grading concerns',
+      'Deadline extension request',
+      'Technical issues with assignments',
+      'Other assignment/exam issue'
+    ];
+    const englishKey = problemIndex >= 0 ? englishKeys[problemIndex] : problem;
+    
+    const description = problemDescriptions[englishKey] || problemDescriptions[problem] || assignmentsData.message;
+    
+    addMessage(description, 'bot');
+    
+    setTimeout(() => {
+      setConversationState('assignments_exams_close');
+      addMessage(
+        assignmentsData.closeConversationQuestion || 'Would you like to close this conversation?',
+        'bot',
+        assignmentsData.closeOptions || ['Yes, close conversation', 'No, I need more help']
+      );
+    }, 500);
+  };
+
+  const handleAssignmentsExamsClose = (response: string) => {
+    if (response === 'Yes, close conversation' || response.toLowerCase().includes('yes') || response.includes('بله، گفتگو را ببند')) {
+      addMessage(chatbotFlow.responses.goodbye, 'bot');
+      startSurvey();
+    } else if (response === 'Back to Menu' || response === 'بازگشت به منو') {
+      goBackToMenu();
+    } else if (response === 'Contact Instructor' || response === 'تماس با استاد') {
+      displayContactInfo('Contact Instructor');
+    } else {
+      const assignmentsData = chatbotFlow.otherTopics.assignmentsExams;
+      addMessage(assignmentsData.message, 'bot', assignmentsData.options);
+      setConversationState('other_topic');
+    }
+  };
+
+  const handleCourseInstructorProblem = (problem: string) => {
+    const instructorData = chatbotFlow.otherTopics.courseInstructor;
+    const problemDescriptions = instructorData.problemDescriptions as Record<string, string>;
+    
+    // Find the English key by matching the problem text with the problems array
+    const problemIndex = instructorData.problems?.findIndex(p => p === problem) ?? -1;
+    const englishKeys = [
+      'Cannot contact instructor',
+      'Instructor not responding',
+      'Need clarification on course material',
+      'Schedule a meeting',
+      'Communication preferences',
+      'Other instructor issue'
+    ];
+    const englishKey = problemIndex >= 0 ? englishKeys[problemIndex] : problem;
+    
+    const description = problemDescriptions[englishKey] || problemDescriptions[problem] || instructorData.message;
+    
+    addMessage(description, 'bot');
+    
+    setTimeout(() => {
+      setConversationState('course_instructor_close');
+      addMessage(
+        instructorData.closeConversationQuestion || 'Would you like to close this conversation?',
+        'bot',
+        instructorData.closeOptions || ['Yes, close conversation', 'No, I need more help']
+      );
+    }, 500);
+  };
+
+  const handleCourseInstructorClose = (response: string) => {
+    if (response === 'Yes, close conversation' || response.toLowerCase().includes('yes') || response.includes('بله، گفتگو را ببند')) {
+      addMessage(chatbotFlow.responses.goodbye, 'bot');
+      startSurvey();
+    } else if (response === 'Back to Menu' || response === 'بازگشت به منو') {
+      goBackToMenu();
+    } else if (response === 'Go to Portal' || response === 'رفتن به پورتال') {
+      displayContactInfo('Go to Portal');
+    } else {
+      const instructorData = chatbotFlow.otherTopics.courseInstructor;
+      addMessage(instructorData.message, 'bot', instructorData.options);
+      setConversationState('other_topic');
     }
   };
 
   const handleOtherTopicResponse = (response: string) => {
-    if (response === 'Back to Menu') {
-      initializeChat();
-      setConversationState('initial');
+    if (response === 'Back to Menu' || response === 'بازگشت به منو') {
+      goBackToMenu();
+    } else if (response === 'Contact Advisor' || response === 'تماس با مشاور') {
+      displayContactInfo('Contact Advisor');
+    } else if (response === 'Contact Financial Aid' || response === 'تماس با کمک مالی') {
+      displayContactInfo('Contact Financial Aid');
+    } else if (response === 'Contact Instructor' || response === 'تماس با استاد') {
+      displayContactInfo('Contact Instructor');
+    } else if (response === 'Go to Portal' || response === 'رفتن به پورتال') {
+      displayContactInfo('Go to Portal');
     } else {
       addMessage(chatbotFlow.responses.goodbye, 'bot');
       startSurvey();
@@ -362,11 +728,11 @@ export default function Chatbot() {
     const diff = now.getTime() - date.getTime();
     const minutes = Math.floor(diff / 60000);
     
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m ago`;
+    if (minutes < 1) return 'همین الان';
+    if (minutes < 60) return `${minutes} دقیقه قبل`;
     
     const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours}h ago`;
+    if (hours < 24) return `${hours} ساعت قبل`;
     
     return date.toLocaleDateString('en-US', {
       month: 'short',
@@ -379,7 +745,9 @@ export default function Chatbot() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      handleUserInput(inputValue.trim());
+      const trimmedInput = inputValue.trim();
+      addMessage(trimmedInput, 'user');
+      handleUserInput(trimmedInput);
       setInputValue('');
     }
   };
@@ -389,14 +757,15 @@ export default function Chatbot() {
     setConversationState('initial');
     setUserData({});
     setShowDatePicker(false);
+    setHasSentFirstMessage(false);
     initializeChat();
   };
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <div className="bg-blue-600 text-white p-4 shadow-md">
-        <h1 className="text-xl font-semibold">UoPeople Portal Chat</h1>
-        <p className="text-sm opacity-90">Chat with Michelle</p>
+        <h1 className="text-xl">چت بات دانشگاه پیام نور</h1>
+        <p className="text-sm opacity-90">صحبت با مریم</p>
       </div>
 
       <div
@@ -437,7 +806,7 @@ export default function Chatbot() {
                     <button
                       key={index}
                       onClick={() => handleOptionClick(option)}
-                      className={`block w-full text-left p-2 rounded transition-colors ${
+                      className={`block w-full text-right p-2 rounded transition-colors cursor-pointer ${
                         message.sender === 'user'
                           ? 'bg-blue-700 hover:bg-blue-800'
                           : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
@@ -484,20 +853,21 @@ export default function Chatbot() {
       {conversationState !== 'conversation_end' && (
         <form onSubmit={handleSubmit} className="p-4 border-t bg-white">
           <div className="flex gap-2">
+       
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="متن پیام خود را وارد کنید..."
+              className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-right text-gray-600"
               disabled={conversationState === 'urgent_auth_dob' && showDatePicker}
             />
-            <button
+              <button
               type="submit"
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!inputValue.trim()}
             >
-              Send
+              ارسال
             </button>
           </div>
         </form>
