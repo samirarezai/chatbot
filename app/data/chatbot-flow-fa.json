@@ -15,7 +15,7 @@
     "authQuestions": [  
       {
         "id": "email",
-        "question": "1- آدرس ایمیل شما در UoPeople چیست؟",
+        "question": "1- آدرس ایمیل شما   چیست؟",
         "type": "text",
         "validation": "email"
       },
@@ -184,27 +184,27 @@
   },
   "contacts": {
     "Contact Advisor": {
-      "name": "دکتر سارا جانسون",
+      "name": "دکتر فاطمه نورانی",
       "title": "مشاور برنامه",
-      "email": "sarah.johnson@uopeople.edu",
+      "email": "sarah.johnson@.edu",
       "phone": "+1 (555) 123-4567"
     },
     "Contact Financial Aid": {
       "name": "آقای مایکل چن",
       "title": "افسر کمک مالی",
-      "email": "financialaid@uopeople.edu",
+      "email": "financialaid@.edu",
       "phone": "+1 (555) 234-5678"
     },
     "Contact Instructor": {
       "name": "استاد دوره شما",
       "title": "استاد دوره",
-      "email": "instructor@uopeople.edu",
+      "email": "instructor@.edu",
       "phone": "+1 (555) 345-6789"
     },
     "Go to Portal": {
       "name": "پشتیبانی پورتال",
       "title": "مدیر پورتال دانشجویی",
-      "email": "portal@uopeople.edu",
+      "email": "portal@.edu",
       "phone": "+1 (555) 456-7890"
     }
   }

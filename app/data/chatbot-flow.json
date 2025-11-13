@@ -1,6 +1,6 @@
 {
   "initial": {
-    "greeting": "Well hey there! It's great seeing you here in Portal . I'm Michelle, the UoPeople chatbot.",
+    "greeting": "Well hey there! It's great seeing you here in Portal . I'm Michelle, the payam noor chatbot.",
     "question": "How may I assist you today?",
     "options": [
       "Course Registration",
@@ -15,7 +15,7 @@
     "authQuestions": [
       {
         "id": "email",
-        "question": "1- What is the email address you have with UoPeople",
+        "question": "1- What is the email address you have with payam noor",
         "type": "text",
         "validation": "email"
       },
@@ -186,25 +186,25 @@
     "Contact Advisor": {
       "name": "Dr. Sarah Johnson",
       "title": "Program Advisor",
-      "email": "sarah.johnson@uopeople.edu",
+      "email": "sarah.johnson@payamnoor.edu",
       "phone": "+1 (555) 123-4567"
     },
     "Contact Financial Aid": {
       "name": "Mr. Michael Chen",
       "title": "Financial Aid Officer",
-      "email": "financialaid@uopeople.edu",
+      "email": "financialaid@payamnoor.edu",
       "phone": "+1 (555) 234-5678"
     },
     "Contact Instructor": {
       "name": "Your Course Instructor",
       "title": "Course Instructor",
-      "email": "instructor@uopeople.edu",
+      "email": "instructor@payamnoor.edu",
       "phone": "+1 (555) 345-6789"
     },
     "Go to Portal": {
       "name": "Portal Support",
       "title": "Student Portal Administrator",
-      "email": "portal@uopeople.edu",
+      "email": "portal@payamnoor.edu",
       "phone": "+1 (555) 456-7890"
     }
   }

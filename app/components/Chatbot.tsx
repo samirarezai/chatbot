@@ -326,7 +326,7 @@ export default function Chatbot() {
   };
 
   const handleTopicSelection = (topic: string) => {
-    if (topic === 'Registration') {
+    if (topic === 'Registration' || topic === 'ثبت‌نام') {
       setConversationState('urgent_registration_option');
       addMessage(
         chatbotFlow.urgentAssistance.registrationOptions.question,
@@ -353,7 +353,7 @@ export default function Chatbot() {
   };
 
   const handleUnavailableResponse = (response: string) => {
-    if (response === 'Yes') {
+    if (response === 'Yes' || response === 'بله') {
       setConversationState('urgent_email_composition');
       const greeting = chatbotFlow.urgentAssistance.emailComposition.greeting.replace(
         '{name}',
@@ -378,7 +378,7 @@ export default function Chatbot() {
   };
 
   const handleEmailConfirmation = (response: string) => {
-    if (response === 'Yes, send my email') {
+    if (response === 'Yes, send my email' || response === 'بله، ایمیل من را ارسال کن') {
       addMessage(chatbotFlow.urgentAssistance.emailComposition.sending, 'bot');
       setTimeout(() => {
         addMessage(chatbotFlow.urgentAssistance.emailComposition.sent, 'bot');
@@ -392,7 +392,7 @@ export default function Chatbot() {
   };
 
   const handleFollowup = (response: string) => {
-    if (response === 'No') {
+    if (response === 'No' || response === 'خیر') {
       startSurvey();
     } else {
       messageIdCounter.current = 0;
