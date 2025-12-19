@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Open [https://vercel.com/samirarezai1996s-projects/chatbot-nkhj](https://vercel.com/samirarezai1996s-projects/chatbot-nkhj) with your browser to see the result.
+Open [https://chatbot-nkhj.vercel.app](https://chatbot-nkhj.vercel.app) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
